@@ -37,7 +37,13 @@ jobs:
       - name: CI Bootstrap
         run: |
           src=$(/usr/bin/curl -LfsS https://raw.githubusercontent.com/acidanthera/ocbuild/master/ci-bootstrap.sh) && eval "$src" || exit 1
-
+      - name: Configure Xcode
+        run: |
+          echo "Available Xcode installations:"
+          ls -d /Applications/Xcode*.app
+          sudo xcode-select -s "$(xcode-select -p | sed 's|/Contents/Developer||')/Contents/Developer"
+          xcodebuild -version
+          
       - run: ./build_duet.tool
       - run: ./build_oc.tool
 
